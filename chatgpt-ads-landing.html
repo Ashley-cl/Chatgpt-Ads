@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatgpt Ads — Advertising where the conversation happens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0F14;
+    --ink-soft:#161923;
+    --bone:#EDEAE2;
+    --bone-dim:#C7C3B8;
+    --indigo:#5B57F2;
+    --indigo-soft:#8481F5;
+    --gold:#E8B84B;
+    --slate:#8B8FA3;
+    --line: rgba(237,234,226,0.14);
+    --radius: 3px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Source Serif 4', Georgia, serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.mono{
+    font-family:'Space Grotesk', sans-serif;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  /* ---- Promo bar ---- */
+  .promo{
+    background:var(--indigo);
+    color:#fff;
+    text-align:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:14px;
+    padding:11px 20px;
+  }
+  .promo b{color:var(--gold);}
+  .promo a{text-decoration:underline; text-underline-offset:2px; margin-left:4px;}
+  @media(max-width:520px){.promo{font-size:12.5px;}}
+
+  /* ---- Nav ---- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(13,15,20,0.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:19px;
+    display:flex; align-items:center; gap:9px;
+  }
+  .brand-dot{width:9px; height:9px; border-radius:50%; background:var(--indigo); box-shadow:0 0 12px var(--indigo);}
+  .nav-links{display:flex; gap:36px; font-family:'Space Grotesk', sans-serif; font-size:14.5px; color:var(--slate);}
+  .nav-links a{transition:color .15s;}
+  .nav-links a:hover{color:var(--bone);}
+  .nav-cta{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:14.5px; font-weight:500;
+    background:var(--bone); color:var(--ink);
+    padding:9px 18px; border-radius:var(--radius);
+    transition:background .15s;
+  }
+  .nav-cta:hover{background:var(--indigo-soft); color:var(--ink);}
+  @media(max-width:800px){.nav-links{display:none;}}
+
+  /* ---- Hero ---- */
+  .hero{
+    padding:96px 0 100px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;
+  }
+  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr; gap:56px;} .hero{padding:56px 0 64px;}}
+
+  .eyebrow{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13.5px; color:var(--indigo-soft);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:52px; font-weight:600; line-height:1.08;
+    color:var(--bone);
+    max-width:11.5ch;
+  }
+  @media(max-width:520px){.hero h1{font-size:38px;}}
+  .hero .sub{
+    margin-top:24px; font-size:19px; color:var(--bone-dim);
+    max-width:46ch; line-height:1.65;
+  }
+  .hero-actions{margin-top:36px; display:flex; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    font-family:'Space Grotesk', sans-serif; font-weight:500; font-size:15px;
+    background:var(--indigo); color:#fff;
+    padding:14px 26px; border-radius:var(--radius);
+    border:none; cursor:pointer;
+    transition:background .15s, transform .1s;
+  }
+  .btn-primary:hover{background:var(--indigo-soft);}
+  .btn-primary:active{transform:scale(0.98);}
+  .btn-ghost{
+    font-family:'Space Grotesk', sans-serif; font-weight:500; font-size:15px;
+    color:var(--bone); padding:14px 4px;
+    border-bottom:1px solid var(--slate);
+  }
+  .btn-ghost:hover{border-color:var(--bone);}
+
+  /* Hero chat mockup */
+  .chat-card{
+    background:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px;
+  }
+  .chat-card .dot-row{display:flex; gap:6px; margin-bottom:18px;}
+  .chat-card .dot{width:8px; height:8px; border-radius:50%; background:var(--line);}
+  .bubble{
+    padding:13px 16px; border-radius:10px; font-size:14.5px; margin-bottom:12px;
+    max-width:86%;
+  }
+  .bubble.user{background:#1D2130; color:var(--bone-dim); margin-left:auto; border-bottom-right-radius:2px;}
+  .bubble.ai{background:transparent; border:1px solid var(--line); color:var(--bone); border-bottom-left-radius:2px;}
+  .bubble.sponsored{
+    background:linear-gradient(135deg, rgba(91,87,242,0.16), rgba(232,184,75,0.10));
+    border:1px solid rgba(91,87,242,0.4);
+    border-bottom-left-radius:2px;
+  }
+  .sponsored-tag{
+    font-family:'Space Grotesk', sans-serif; font-size:10.5px; color:var(--gold);
+    letter-spacing:0.04em; display:block; margin-bottom:6px;
+  }
+
+  /* ---- Stat band ---- */
+  .stats{border-bottom:1px solid var(--line); padding:52px 0;}
+  .stats .wrap{display:grid; grid-template-columns:repeat(3,1fr); gap:32px;}
+  @media(max-width:700px){.stats .wrap{grid-template-columns:1fr; gap:28px;}}
+  .stat-num{font-family:'Space Grotesk', sans-serif; font-size:38px; font-weight:600; color:var(--bone);}
+  .stat-label{color:var(--slate); font-size:14.5px; margin-top:6px;}
+
+  /* ---- Services ---- */
+  .services{padding:110px 0;}
+  .section-head{max-width:56ch; margin-bottom:64px;}
+  .section-head .kicker{font-family:'Space Grotesk', sans-serif; font-size:13.5px; color:var(--indigo-soft); margin-bottom:16px;}
+  .section-head h2{font-size:34px; font-weight:600; color:var(--bone); line-height:1.2;}
+
+  .service-row{
+    display:grid; grid-template-columns:0.9fr 1.4fr; gap:56px;
+    padding:44px 0; border-top:1px solid var(--line);
+    align-items:start;
+  }
+  .service-row:last-child{border-bottom:1px solid var(--line);}
+  @media(max-width:760px){.service-row{grid-template-columns:1fr; gap:16px;}}
+  .service-num{font-family:'Space Grotesk', sans-serif; font-size:14px; color:var(--slate);}
+  .service-title{font-family:'Space Grotesk', sans-serif; font-size:24px; font-weight:600; margin-top:10px; color:var(--bone);}
+  .service-desc{color:var(--bone-dim); font-size:16px; max-width:52ch;}
+  .service-tags{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;}
+  .tag{font-family:'Space Grotesk', sans-serif; font-size:12.5px; color:var(--slate); border:1px solid var(--line); padding:5px 11px; border-radius:20px;}
+
+  /* ---- Why now ---- */
+  .why{background:var(--ink-soft); padding:100px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .why .wrap{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
+  @media(max-width:800px){.why .wrap{grid-template-columns:1fr; gap:36px;}}
+  .why h2{font-size:32px; font-weight:600; line-height:1.25; color:var(--bone); max-width:14ch;}
+  .why-list{display:flex; flex-direction:column; gap:26px;}
+  .why-item{border-left:2px solid var(--indigo); padding-left:20px;}
+  .why-item h3{font-size:16.5px; font-weight:600; color:var(--bone); margin-bottom:6px;}
+  .why-item p{font-size:15px; color:var(--bone-dim);}
+
+  /* ---- Consultation form ---- */
+  .consult{padding:110px 0;}
+  .consult .wrap{display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px;}
+  @media(max-width:860px){.consult .wrap{grid-template-columns:1fr; gap:44px;}}
+  .consult h2{font-size:36px; font-weight:600; color:var(--bone); line-height:1.2; max-width:12ch;}
+  .consult .sub{color:var(--bone-dim); margin-top:18px; font-size:16.5px; max-width:38ch;}
+
+  .consult-meta{margin-top:40px; display:flex; flex-direction:column; gap:18px;}
+  .consult-meta-item{display:flex; gap:14px; align-items:baseline; font-size:14.5px; color:var(--slate);}
+  .consult-meta-item b{font-family:'Space Grotesk', sans-serif; color:var(--bone); font-weight:500;}
+
+  form{background:var(--ink-soft); border:1px solid var(--line); border-radius:8px; padding:36px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:520px){.form-row{grid-template-columns:1fr;}}
+  .field{margin-bottom:20px;}
+  .field label{
+    display:block; font-family:'Space Grotesk', sans-serif; font-size:13px;
+    color:var(--slate); margin-bottom:8px;
+  }
+  .field input[type=text], .field input[type=email], .field input[type=tel], .field select, .field textarea{
+    width:100%; background:var(--ink); border:1px solid var(--line); border-radius:var(--radius);
+    padding:12px 13px; color:var(--bone); font-family:'Source Serif 4', serif; font-size:15px;
+    outline:none; transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--indigo-soft);}
+  .field textarea{resize:vertical; min-height:90px;}
+  .checks{display:flex; gap:18px; flex-wrap:wrap; margin-top:6px;}
+  .check-opt{
+    display:flex; align-items:center; gap:8px; font-family:'Space Grotesk', sans-serif; font-size:14px;
+    color:var(--bone-dim); cursor:pointer; border:1px solid var(--line); padding:9px 14px; border-radius:20px;
+    transition:border-color .15s, color .15s;
+  }
+  .check-opt input{accent-color:var(--indigo);}
+  .check-opt.active{border-color:var(--indigo-soft); color:var(--bone);}
+  .submit-row{display:flex; align-items:center; gap:16px; margin-top:8px;}
+  .form-note{font-size:12.5px; color:var(--slate);}
+
+  .success{
+    display:none; text-align:center; padding:60px 20px;
+  }
+  .success.show{display:block;}
+  .success .check-icon{
+    width:52px; height:52px; border-radius:50%; background:var(--indigo);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 22px;
+  }
+  .success h3{font-family:'Space Grotesk', sans-serif; font-size:22px; color:var(--bone); margin-bottom:10px;}
+  .success p{color:var(--bone-dim); font-size:15px; max-width:36ch; margin:0 auto;}
+
+  footer{border-top:1px solid var(--line); padding:40px 0;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  footer .brand{font-size:15px;}
+  footer .fine{color:var(--slate); font-size:13.5px;}
+</style>
+</head>
+<body>
+
+<div class="promo">First-time customers: run your first campaign for as low as <b>$500/month</b>.<a href="#consult">Claim the offer →</a></div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="brand-dot"></span>Chatgpt Ads</div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#why">Why now</a>
+      <a href="#consult">Consultation</a>
+    </div>
+    <a href="#consult" class="nav-cta">Book a call</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Advertising for the conversational web</div>
+      <h1>Your brand, inside the conversation.</h1>
+      <p class="sub">We place your brand where people are already asking, deciding, and buying — inside ChatGPT, and across Meta and TikTok. One agency, three of the fastest-moving channels in advertising.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('consult').scrollIntoView({behavior:'smooth'})">Schedule a consultation</button>
+        <a href="#services" class="btn-ghost">See what we run →</a>
+      </div>
+    </div>
+    <div class="chat-card">
+      <div class="dot-row"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="bubble user">Best noise-cancelling headphones for a red-eye flight?</div>
+      <div class="bubble ai">For a red-eye, prioritize weight and battery life over anything else...</div>
+      <div class="bubble sponsored">
+        <span class="sponsored-tag">SPONSORED · PLACED BY CHATGPT ADS</span>
+        Aria Audio's Flight 3 — 40hr battery, 8oz. Frequently recommended for travel.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap">
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">channels under one roof — ChatGPT, Meta, TikTok</div>
+    </div>
+    <div>
+      <div class="stat-num">1st</div>
+      <div class="stat-label">mover advantage while conversational ad inventory is still early</div>
+    </div>
+    <div>
+      <div class="stat-num">30 min</div>
+      <div class="stat-label">to walk through your fit on a free consultation</div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What we run</div>
+      <h2>Three channels, one strategy — built around where your customers actually spend their attention.</h2>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-num">01</div>
+        <div class="service-title">ChatGPT Ads</div>
+      </div>
+      <div>
+        <p class="service-desc">We design and place ads inside ChatGPT conversations — matched to intent, not keywords. Companies that enter this space early will own the marketplace and reach customers no one else is targeting yet.</p>
+        <div class="service-tags"><span class="tag">Conversational placement</span><span class="tag">Intent targeting</span><span class="tag">Early access</span></div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-num">02</div>
+        <div class="service-title">Meta Ads</div>
+      </div>
+      <div>
+        <p class="service-desc">Full-funnel campaigns across Instagram and Facebook — creative, targeting, and budget pacing managed end to end, with weekly reporting you can actually read.</p>
+        <div class="service-tags"><span class="tag">Feed & Reels</span><span class="tag">Retargeting</span><span class="tag">Creative testing</span></div>
+      </div>
+    </div>
+
+    <div class="service-row">
+      <div>
+        <div class="service-num">03</div>
+        <div class="service-title">TikTok Ads</div>
+      </div>
+      <div>
+        <p class="service-desc">Native-feeling campaigns built for the TikTok feed, not adapted from somewhere else — spark ads, creator partnerships, and rapid creative iteration.</p>
+        <div class="service-tags"><span class="tag">Spark ads</span><span class="tag">Creator partnerships</span><span class="tag">Rapid iteration</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="wrap">
+    <h2>Why bring in an agency for this now</h2>
+    <div class="why-list">
+      <div class="why-item">
+        <h3>The channel is genuinely new</h3>
+        <p>Conversational ad placement doesn't behave like search or social. Companies that enter now will own the marketplace and reach customers no one else is targeting yet.</p>
+      </div>
+      <div class="why-item">
+        <h3>Cross-channel budget needs one owner</h3>
+        <p>Splitting ChatGPT, Meta, and TikTok across different vendors makes it hard to see what's actually working. We report on all three together.</p>
+      </div>
+      <div class="why-item">
+        <h3>Creative has to flex per channel</h3>
+        <p>What works as a sponsored response in a conversation doesn't work as a Reel. We build creative natively for each format.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="consult" id="consult">
+  <div class="wrap">
+    <div>
+      <h2>Let's talk about your ads.</h2>
+      <p class="sub">Tell us a bit about your business and what you're hoping to run. We'll follow up to find a time that works.</p>
+      <div class="consult-meta">
+        <div class="consult-meta-item"><b>What to expect —</b> a 30-minute call, no deck, no pressure.</div>
+        <div class="consult-meta-item"><b>Response time —</b> we get back to every request within one business day.</div>
+        <div class="consult-meta-item"><b>Fit check —</b> if we're not the right agency for you, we'll say so.</div>
+      </div>
+    </div>
+
+    <div>
+      <form id="consultForm">
+        <input type="hidden" name="_subject" value="New consultation request — Chatgpt Ads">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="form-row">
+          <div class="field">
+            <label for="fname">Full name</label>
+            <input type="text" id="fname" name="Full name" required>
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="Company" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="Email" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone (optional)</label>
+            <input type="tel" id="phone" name="Phone">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Channels you're interested in</label>
+          <div class="checks" id="channelChecks">
+            <label class="check-opt"><input type="checkbox" name="Channels" value="ChatGPT Ads"> ChatGPT Ads</label>
+            <label class="check-opt"><input type="checkbox" name="Channels" value="Meta Ads"> Meta Ads</label>
+            <label class="check-opt"><input type="checkbox" name="Channels" value="TikTok Ads"> TikTok Ads</label>
+            <label class="check-opt"><input type="checkbox" name="Channels" value="Not sure yet"> Not sure yet</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="budget">Approximate monthly ad budget</label>
+          <select id="budget" name="Monthly budget" required>
+            <option value="" disabled selected>Select a range</option>
+            <option>Under $2,500</option>
+            <option>$2,500 – $10,000</option>
+            <option>$10,000 – $50,000</option>
+            <option>$50,000+</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="message">What are you hoping to achieve? (optional)</label>
+          <textarea id="message" name="Message" placeholder="A sentence or two is plenty."></textarea>
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="btn-primary" id="submitBtn">Request consultation</button>
+          <span class="form-note">We'll email you to confirm a time.</span>
+        </div>
+      </form>
+
+      <div class="success" id="successMsg">
+        <div class="check-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h3>Request received</h3>
+        <p id="successDetail">Thanks — we'll email you within one business day to schedule your consultation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand"><span class="brand-dot"></span>Chatgpt Ads</div>
+    <div class="fine">ChatGPT Ads · Meta Ads · TikTok Ads — one agency.</div>
+  </div>
+</footer>
+
+<script>
+  const checkOpts = document.querySelectorAll('.check-opt');
+  checkOpts.forEach(opt => {
+    const input = opt.querySelector('input');
+    input.addEventListener('change', () => opt.classList.toggle('active', input.checked));
+  });
+
+  const form = document.getElementById('consultForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/adbluebear@gmail.com';
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.fromEntries(new FormData(form)))
+    })
+    .then(res => {
+      if(!res.ok) throw new Error('Request failed');
+      document.getElementById('successDetail').textContent =
+        (name ? name.split(' ')[0] + ', thanks' : 'Thanks') +
+        ' — we will reach out to ' + (email || 'your email') + ' within one business day to schedule your consultation.';
+      form.style.display = 'none';
+      document.getElementById('successMsg').classList.add('show');
+    })
+    .catch(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Request consultation';
+      alert('Something went wrong sending your request — please try again, or email us directly.');
+    });
+  });
+</script>
+
+</body>
+</html>
